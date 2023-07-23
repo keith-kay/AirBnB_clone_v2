@@ -3,42 +3,43 @@
 starts a Flask web application
 """
 
-from flask import Flask, escape
+from flask import Flask
+
+
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
-def index():
-    """function to return Hello HBNB!"""
+@app.route('/')
+def hello_world():
+    """ Returns some text. """
     return 'Hello HBNB!'
 
 
-@app.route('/hbnb', strict_slashes=False)
+@app.route('/hbnb')
 def hello():
-    """ function to display HBNB"""
+    """ Return other text. """
     return 'HBNB'
 
 
-@app.route('/c/<text>', strict_slashes=False)
-def ctext(text):
-    """ function to display C + value of text """
-    text = text.replace("_", " ")
-    return 'C {}'.format(escape(text))
+@app.route('/c/<text>')
+def c_text(text):
+    """ replace text with variable. """
+    text = text.replace('_', ' ')
+    return 'C {}'.format(text)
 
 
-@app.route('/python', strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def pytext(text="is_cool"):
-    """ function to display Python + value of text """
-    text = text.replace("_", " ")
-    return 'Python {}'.format(escape(text))
+@app.route('/python/')
+@app.route('/python/<text>')
+def python_text(text='is cool'):
+    """ replace more text with another variable. """
+    text = text.replace('_', ' ')
+    return 'Python {}'.format(text)
 
 
-@app.route('/number/<int:n>', strict_slashes=False)
-def num(n):
-    """ function to display integers """
+@app.route('/number/<int:n>')
+def number_text(n):
+    """ replace with int only if given int. """
+    n = str(n)
     return '{} is a number'.format(n)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
 
